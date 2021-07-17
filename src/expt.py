@@ -2,11 +2,13 @@ import pandas as pd
 import dvc.api
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn import tree
 import pickle
 import json
+
+np.random.seed(0)
 
 # Getting data
 repo = "https://github.com/SohamIITBombay/MLOps_Assignment.git"
@@ -35,16 +37,15 @@ Y_test = test_data[:, -1]
 
 
 # Hyperparameters
-max_depth = 5
-min_leaf = 10
+n = 2
 
 
 # Training
-classifier_DT = DecisionTreeClassifier(criterion="entropy", max_depth=max_depth, min_samples_leaf=min_leaf)
+classifier_RF = RandomForestClassifier(n_jobs=n, random_state=0)
 
-classifier_DT.fit(X_train, Y_train)
+classifier_RF.fit(X_train, Y_train)
 
-Y_pred = classifier_DT.predict(X_test)
+Y_pred = classifier_RF.predict(X_test)
 
 accuracy = accuracy_score(Y_test, Y_pred) * 100
 f1_score = f1_score(Y_test, Y_pred)
@@ -60,7 +61,7 @@ print("F1 Score: ", f1_score)
 pd.DataFrame(train_data).to_csv("C:\\Users\\soham\\Desktop\\MLOps\\MLOps_Assignment\\data\\prepared\\train.csv")
 pd.DataFrame(test_data).to_csv("C:\\Users\\soham\\Desktop\\MLOps\\MLOps_Assignment\\data\\prepared\\test.csv")
 
-pickle.dump(classifier_DT, open("C:\\Users\\soham\\Desktop\\MLOps\\MLOps_Assignment\\models\\model.pkl", "wb"))
+pickle.dump(classifier_RF, open("C:\\Users\\soham\\Desktop\\MLOps\\MLOps_Assignment\\models\\model.pkl", "wb"))
 
 
 perfMetrics = {}

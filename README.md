@@ -1,4 +1,4 @@
-# MLOps_Assignment
+# MLOps Project
 
 ### Deployment of a Machine Learning model for Credit card fraud detection Using MLOps
 
